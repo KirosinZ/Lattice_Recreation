@@ -30,7 +30,7 @@ bool parser::Command::ArgumentInfo::isType(const std::string &value) const
                 || value == "false"
                 || value == "FALSE";
         case ArgumentType::tInt:
-            if(value.find(' ') != value.size())
+            if(value.find(' ') != std::string::npos)
                 return false;
 
             std::string::size_type position;
@@ -45,7 +45,7 @@ bool parser::Command::ArgumentInfo::isType(const std::string &value) const
 
             return true;
         case ArgumentType::tFloat:
-            if(value.find(' ') != value.size())
+            if(value.find(' ') != std::string::npos)
                 return false;
 
             try {

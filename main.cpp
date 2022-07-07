@@ -6,6 +6,8 @@
 #include "render\Scene.h"
 #include "lattice/Lattice.h"
 
+#include <chrono>
+
 const int defWidth = 1920;
 const int defHeight = 1080;
 
@@ -101,8 +103,6 @@ void singleObjRender(const std::vector<std::string>::const_iterator& first, cons
 
 }
 
-#include <chrono>
-
 void latticeDemo(const std::vector<std::string>::const_iterator& first, const std::vector<std::string>::const_iterator& last)
 {
     GLFWwindow* window = windowInit();
@@ -133,10 +133,23 @@ void latticeDemo(const std::vector<std::string>::const_iterator& first, const st
     PolygonMesh::Mesh toDeform(*iter);
     std::cout << "Time to read object to deform ["<< std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - ts).count() << " ms]" << std::endl;
 
+    iter = iter + 1;
+    float radius = std::stof(*iter);
+
+    iter = iter + 1;
+    std::string kernel = *iter;
+
     LatticeOperation::Lattice lattice(rest, deformed, toDeform);
 
+    PolygonMesh::Mesh result;
+
     ts = std::chrono::system_clock::now();
-    PolygonMesh::Mesh result = lattice.calculate(8.0f);
+    if (kernel == "wyvill")
+        result = lattice.calculate<LatticeOperation::KernelWeightFunctions::Wyvill>(radius);
+    else if (kernel == "custom")
+        result = lattice.calculate<LatticeOperation::KernelWeightFunctions::Custom>(radius);
+    else
+        throw std::exception("Unknown kernel function");
     std::cout << "Time to perform lattice deformation ["<< std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - ts).count() << " ms]" << std::endl;
 
     rest.allocateBufferData();
@@ -204,7 +217,18 @@ int main(int argc, char* argv[])
         parser parser;
 
         parser::Command renderCommand('r', singleObjRender, 1);
-        parser::Command latticeCommand('l', latticeDemo, 3);
+
+        std::vector<parser::Command::ArgumentInfo> latticeArgs =
+                {
+                        parser::Command::ArgumentInfo(),
+                        parser::Command::ArgumentInfo(),
+                        parser::Command::ArgumentInfo(),
+                        parser::Command::ArgumentInfo(parser::Command::ArgumentInfo::ArgumentType::tFloat, "8"),
+                        parser::Command::ArgumentInfo(parser::Command::ArgumentInfo::ArgumentType::tString, "wyvill")
+                };
+
+        parser::Command latticeCommand('l', latticeArgs, latticeDemo);
+        //parser::Command latticeCommand('l', latticeDemo, 3);
 
         parser.addCommand(renderCommand);
         parser.addCommand(latticeCommand);

@@ -23,6 +23,7 @@ namespace PolygonMesh {
         using IndexType = uint;
 
     public:
+        Mesh() = default;
 
         explicit Mesh(const std::string &filename);
         ~Mesh();
@@ -89,8 +90,6 @@ namespace PolygonMesh {
 
         void readObj(std::ifstream &file);
         void writeObj(std::ofstream &file) const;
-
-        Mesh() = default;
     };
 
 }
