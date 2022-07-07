@@ -396,9 +396,6 @@ void PolygonMesh::Mesh::draw() const
 std::vector<PolygonMesh::SparsePoint> PolygonMesh::Mesh::coords()
 {
     std::vector<PolygonMesh::SparsePoint> result;
-/*std::vector<Utility::MultiPointer<PolygonMesh::Mesh::CoordinateType>> PolygonMesh::Mesh::coords()
-{
-    std::vector<Utility::MultiPointer<PolygonMesh::Mesh::CoordinateType>> result;*/
     result.resize(m_numVertices);
     for(int auxiliaryIter = 0; auxiliaryIter < m_auxiliaryData.size(); auxiliaryIter++) {
         const uint index = m_auxiliaryData[auxiliaryIter].pointIndex - 1;

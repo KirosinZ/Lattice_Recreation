@@ -34,7 +34,6 @@ PolygonMesh::Mesh LatticeOperation::Lattice::calculateBrute(float radius)
             result += shift / accumulator;
 
         m_resultCoordinates[toDeformIndex].set(result);
-        //m_resultCoordinates[toDeformIndex] = result;
     }
 
     return m_result;

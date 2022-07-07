@@ -62,7 +62,6 @@ namespace LatticeOperation {
 
         PolygonMesh::Mesh m_result;
         std::vector<PolygonMesh::SparsePoint> m_resultCoordinates;
-        //std::vector<Utility::MultiPointer<glm::vec3>> m_resultCoordinates;
 
         template<class kernel>
         void forwardCaseIteration(const std::vector<int> &candidates, int toDeformIndex, float radius);
@@ -123,7 +122,6 @@ namespace LatticeOperation {
             result += shift / accumulator;
 
         m_resultCoordinates[toDeformIndex].set(result);
-        //m_resultCoordinates[toDeformIndex] = result;
     }
 
     template<class kernel>
@@ -180,7 +178,6 @@ namespace LatticeOperation {
                 result += vertexShiftCalculators[toDeformIndex].shift / vertexShiftCalculators[toDeformIndex].accumulator;
 
             m_resultCoordinates[toDeformIndex].set(result);
-            //m_resultCoordinates[toDeformIndex] = result;
         }
     }
 }

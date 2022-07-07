@@ -43,8 +43,6 @@ namespace PolygonMesh {
 
         [[nodiscard]]
         std::vector<SparsePoint> coords();
-//        [[nodiscard]]
-//        std::vector<Utility::MultiPointer<CoordinateType>> coords();
         [[nodiscard]]
         std::vector<CoordinateType> constCoords() const;
 
